@@ -1,0 +1,33 @@
+﻿@model dynamic
+
+@{
+    Layout = null;
+}
+
+<h1><strong>Invoices</strong></h1>
+
+@using (Html.BeginForm("Index", "Invoice", FormMethod.Post))
+{
+    @Html.DropDownList("CustomerId", "Select customer")
+    <button type="submit">Show invoices</button>
+}
+
+
+@foreach (var invoice in @ViewBag.Invoice)
+{
+    <span>Customer: @invoice.customer.Firstname @invoice.customer.Lastname 
+
+
+        @{ decimal price = 0M; }
+        @foreach (var product in @invoice.OrderItemsList)
+        {
+
+            <li> Product: @product.product.Title (@product.product.ToString().Substring(16)) Price: @product.product.Price </li>
+            price += @product.product.Price;
+
+        }
+        <p>Total: @price
+        </p>
+
+    </span>
+}

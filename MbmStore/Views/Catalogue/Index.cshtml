@@ -1,0 +1,78 @@
+﻿@using MbmStore.Models
+@model MbmStore.ViewModels.ProductViewModel
+
+
+@{
+    Layout = null;
+}
+
+
+@helper RenderBooks(Book book)
+{
+    <p>
+        <h2>@book.Title</h2>
+            <p>
+                Director: @book.Author<br>
+                Price: @String.Format("{0:0.00}", @book.Price)
+                Publisher: @book.Publisher <br>
+                ISBN: @book.ISBN
+                </p>
+            <p><img src="/content/images/@book.ImageUrl" alt="@book.Title" /></p>
+
+    </p>
+
+}
+
+@helper RenderMovies(Movie movie)
+{
+    <h2>@movie.Title</h2>
+    <p>
+        Director: @movie.Director<br>
+        Price: @String.Format("{0:0.00}", @movie.Price)
+    </p>
+    <p><img src="/content/images/@movie.ImageUrl" alt="@movie.Title" /></p>
+
+}
+
+@helper RenderCd(MusicCD cd)
+{
+    <h2>@cd.Title</h2>
+    <p>
+        Artist: @cd.Artist<br>
+        Price: @String.Format("{0:0.00}", @cd.Price)
+        Publisher: @cd.Label    
+        </p>
+    <p><img src="/content/images/@cd.ImageUrl" alt="@cd.Title" /></p>
+
+}
+
+
+<h2>The Books</h2>
+
+@foreach (Book book in Model.Books)
+{
+    @RenderBooks(book);
+}
+
+
+
+<h2>The Music CDs</h2>
+
+@foreach (MusicCD cd in Model.MusicCds)
+{
+    @RenderCd(cd);
+    foreach (var list in cd.Tracks)
+    {
+        <li> @list.title @list.Length</li>
+    }
+    <p><b>Total playing time:</b> @cd.GetPlayingTIme()</p>
+}
+
+
+<h2>The Movies</h2>
+@foreach (Movie movie in Model.Movies)
+{
+    
+    @RenderMovies(movie);
+    
+}
